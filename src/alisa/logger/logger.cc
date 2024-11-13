@@ -1,9 +1,7 @@
 #include "logger.h"
 
 namespace alisa {
-namespace core {
-
-#include "logger.h"
+namespace logger {
 
 void Logger::init() {
     SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO);

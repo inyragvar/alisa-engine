@@ -1,7 +1,7 @@
 #include "vector_4f.h"
 
 #include <cmath>
-#include "alisa/core/logger.h"
+#include "alisa/logger/logger.h"
 
 namespace alisa {
 namespace utils {
@@ -144,7 +144,7 @@ float Vector4f::length() const {
 void Vector4f::rotate(float angle, const Vector4f& axis) {}
 
 void Vector4f::print() const { 
-    core::Logger::info("(%.02f, %.02f, %.02f)", x, y, z); 
+    logger::Logger::info("(%.02f, %.02f, %.02f)", x, y, z); 
 }
 
 }

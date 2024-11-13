@@ -1,6 +1,6 @@
 #include "matrix_4f.h"
 
-#include "alisa/core/logger.h"
+#include "alisa/logger/logger.h"
 
 #include "math.h"
 
@@ -249,7 +249,7 @@ Matrix4f::operator const float*() const {
 
 void Matrix4f::print() const {
     for (int i = 0 ; i < 4 ; i++) {
-        core::Logger::info("%f %f %f %f\n", m[i][0], m[i][1], m[i][2], m[i][3]);
+        logger::Logger::info("%f %f %f %f\n", m[i][0], m[i][1], m[i][2], m[i][3]);
     }
 }
 
@@ -266,7 +266,7 @@ Matrix4f Matrix4f::inverse() const {
     float det = determinant();
 
     if (det == 0.0f) {
-        core::Logger::error("Matrix4f determinant == 0");
+        logger::Logger::error("Matrix4f determinant == 0");
         return *this; // Return the original matrix if it's not invertible
     }
 

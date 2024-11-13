@@ -1,7 +1,7 @@
 #include "vector_3f.h"
 
 #include <cmath>
-#include "alisa/core/logger.h"
+#include "alisa/logger/logger.h"
 
 #include "quaternion.h"
 
@@ -155,7 +155,7 @@ float Vector3f::dot(const Vector3f& r) const {
 }
 
 void Vector3f::print() const { 
-    core::Logger::info("(%.02f, %.02f, %.02f)", x, y, z); 
+    logger::Logger::info("(%.02f, %.02f, %.02f)", x, y, z); 
 }
 
 

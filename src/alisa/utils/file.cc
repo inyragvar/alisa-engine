@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "alisa/core/logger.h"
+#include "alisa/logger/logger.h"
 #include "lib/SDL2/SDL.h"
 
 #if defined(__IPHONEOS__)
@@ -24,7 +24,7 @@ std::string GetAssetsFilePath(const char* file_path) {
     full_path.append(ASSETS_FOLDER);
 #endif
     full_path.append(file_path);
-    core::Logger::info("assets file path: %s", full_path.c_str());
+    logger::Logger::info("assets file path: %s", full_path.c_str());
     return full_path;
 }
 
@@ -41,7 +41,7 @@ std::string GetStoreFilePath(const char* file_path) {
 #endif
 
     full_path.append(file_path);
-    core::Logger::info("store file path: %s", full_path.c_str());
+    logger::Logger::info("store file path: %s", full_path.c_str());
     return full_path;
 }
 
@@ -59,7 +59,7 @@ std::string ReadFileStr(const char* file_path, bool is_assets) {
     std::string full_path = is_assets ? GetAssetsFilePath(file_path) : GetStoreFilePath(file_path);
     SDL_RWops* rw = SDL_RWFromFile(full_path.c_str(), "rb");
     if (rw == nullptr) {
-        core::Logger::error("File: failed to read file: %s; error: %s", full_path.c_str(),  SDL_GetError());
+        logger::Logger::error("File: failed to read file: %s; error: %s", full_path.c_str(),  SDL_GetError());
         return "";
     }
 
@@ -90,7 +90,7 @@ std::vector<char> ReadFileBinary(const char* file_path, bool is_assets) {
     std::string full_path = is_assets ? GetAssetsFilePath(file_path) : GetStoreFilePath(file_path);
     SDL_RWops* rw = SDL_RWFromFile(full_path.c_str(), "rb");
     if (rw == nullptr) {
-        core::Logger::error("File: failed to read file: %s; error: %s", full_path.c_str(), SDL_GetError());
+        logger::Logger::error("File: failed to read file: %s; error: %s", full_path.c_str(), SDL_GetError());
         return std::vector<char>();
     }
 
@@ -107,7 +107,7 @@ std::vector<char> ReadFileBinary(const char* file_path, bool is_assets) {
     SDL_RWclose(rw);
 
     if (nb_read_total != res_size) {
-        core::Logger::error("File: failed to read the complete file: %s", full_path.c_str());
+        logger::Logger::error("File: failed to read the complete file: %s", full_path.c_str());
         return std::vector<char>();
     }
 
@@ -122,7 +122,7 @@ bool SaveFile(const char* file_path, const char* buffer, int bytes_count, bool i
 #else
     SDL_RWops* output_file = SDL_RWFromFile(full_path.c_str(), "w");
     if (output_file == nullptr) {
-        core::Logger::error("File: failed to open output file: %s; error: %s", full_path.c_str(), SDL_GetError());
+        logger::Logger::error("File: failed to open output file: %s; error: %s", full_path.c_str(), SDL_GetError());
         
         return false;
     }
@@ -130,7 +130,7 @@ bool SaveFile(const char* file_path, const char* buffer, int bytes_count, bool i
     // Write the modified data to the output file
     Sint64 bytes_written = SDL_RWwrite(output_file, buffer, 1, bytes_count);
     if (bytes_written != bytes_count) {
-        core::Logger::error("File: failed to write data to output file: %s", SDL_GetError());;
+        logger::Logger::error("File: failed to write data to output file: %s", SDL_GetError());;
 
         return false;
     }

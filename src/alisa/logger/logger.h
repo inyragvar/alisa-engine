@@ -1,12 +1,12 @@
-#ifndef ALISA_CORE_LOGGER_H_
-#define ALISA_CORE_LOGGER_H_
+#ifndef ALISA_LOGGER_LOGGER_H_
+#define ALISA_LOGGER_LOGGER_H_
 
 #include <string>
 
 #include "lib/SDL2/SDL.h"
 
 namespace alisa {
-namespace core {
+namespace logger {
 
 class Logger {
 public:
