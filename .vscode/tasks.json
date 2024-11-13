@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Cppcheck",
+            "type": "shell",
+            "command": "cppcheck",
+            "args": [
+                "${workspaceFolder}/src",
+                "2>",
+                "cppcheck_output.txt"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "make build",
+            "options": {
+                "cwd": "${workspaceFolder}/projects/linux"
+            },
+        }
+    ]
+}

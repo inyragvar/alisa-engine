@@ -1,0 +1,100 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+#*.obj
+
+# Precompiled Headersgl
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+# android git ignore
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof 
+
+# ignore binary
+project/linux/test_game_tests
+project/linux/test_game
+project/mac/test_game
+project/win/test_game.exe
+
+.DS_Store
+
+# xcode
+## User settings
+xcuserdata/
+
+## Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+project/win/assets/*
+project/win/store/*
+
+# ignore linux links
+project/android/app/jni/SDL2
+project/android/app/src/main/assets
+
+# ignore assimp android build
+project/android/build-android
+
+#ignore assimp and builded files in web project
+project/web/assets
+project/web/index*
+
+project/mac/assets
