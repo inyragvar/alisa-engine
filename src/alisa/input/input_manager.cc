@@ -26,22 +26,87 @@ void InputManager::init() {
     is_running_ = true;
 
     initConnectors();
-    event_thread_ = new std::thread(&InputManager::handleEvents, this);
 }
 
 void InputManager::clear() {
-    is_running_ = false;
-    event_thread_->join();
-
-    delete event_thread_;
 }
 
 bool InputManager::catchEvents() {
     SDL_Event event;
+    
+    int new_width;
+    int new_height;
+
     while (SDL_PollEvent(&event)) {
-        event_mutex_.lock();
-        event_queue_.push_back(event);
-        event_mutex_.unlock();
+        switch (event.type) {
+            case SDL_KEYDOWN:
+                handleKeyEvent(event, true);
+                break;
+            case SDL_KEYUP:
+                handleKeyEvent(event, false);
+                break;
+            case SDL_MOUSEMOTION:
+                handleMouseMoveEvent(event);
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+            #ifndef MOBILE_OS
+                handleMouseEvent(event, true);
+            #endif
+                break;
+            case SDL_MOUSEBUTTONUP:
+            #ifndef MOBILE_OS
+                handleMouseEvent(event, false);
+            #endif
+                break;
+            case SDL_FINGERDOWN:
+                handleTouchEvent(event, true);
+                break;
+            case SDL_FINGERUP:
+                handleTouchEvent(event, false);
+                break;
+           case SDL_WINDOWEVENT:
+                switch (event.window.event) {
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                        new_width = event.window.data1;
+                        new_height = event.window.data2;
+                        
+                    #if defined(__IPHONEOS__) || defined(__EMSCRIPTEN__)
+                        Render::get().getWindowSize(&new_width, &new_height);
+                    #endif
+
+                        //utils::Config::get().set("window_width", new_width);
+                       // utils::Config::get().set("window_height", new_height);
+
+                       // system::AdaptScreenSize();
+                        screen::ScreenManager::get().reloadCurrentScreen();
+                        initWindowRect();
+
+                        logger::Logger::info("Window size changed: w=%d, h=%d\n", new_width, new_height);
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        //	game_->setActive(false);
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        //	game_->setActive(true);
+                        break;
+                }
+                break;
+            //#ifndef MOBILE_OS
+            case SDL_SENSORUPDATE:
+                switch (event.sensor.type) {
+                    case SDL_SENSOR_ACCEL:
+                        float x = event.sensor.data[0];
+                        float y = event.sensor.data[1];
+                        float z = event.sensor.data[2];
+                        // Handle accelerometer sensor data
+                        logger::Logger::info("Accelerometer: x=%.2f, y=%.2f, z=%.2f\n", x, y, z);
+                    break;
+                }
+           // #endif
+            case SDL_QUIT:
+                handleQuitEvent();
+                break;
+        }
     }
 
     handleContinuousKeyEvent();
