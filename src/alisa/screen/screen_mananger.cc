@@ -1,27 +1,10 @@
 #include "screen_manager.h"
 
-#include "alisa/log/log.h"
-#include "alisa/opengl.h"
-#include "alisa/render/render.h"
-#include "alisa/input/input_manager.h"
-
 #include <thread>
 #include <chrono>
 
 namespace alisa {
 namespace screen {
-ScreenManager* ScreenManager::instance_ = nullptr;
-std::once_flag ScreenManager::init_instance_flag_;
-
-void ScreenManager::initScreenManager() {
-    instance_ = new ScreenManager();
-}
-
-ScreenManager& ScreenManager::get() {
-    std::call_once(init_instance_flag_, &ScreenManager::initScreenManager);
-
-    return *instance_;
-}
 
 ScreenManager::ScreenManager() : current_screen_(nullptr) {
     SDL_AtomicSet(&is_need_change_screen_, 0);
@@ -71,7 +54,6 @@ bool ScreenManager::setCurrent(std::string name) {
         return true;
     }
 
-    input::InputManager::get().lockEventHandlers();
     new_screen_name_ = name;
     SDL_AtomicSet(&is_need_change_screen_, 1);
     return true;
@@ -90,7 +72,6 @@ void ScreenManager::changeScreen() {
         current_screen_name_ = new_screen_name_;
         
         SDL_AtomicSet(&is_need_change_screen_, 0);
-        input::InputManager::get().unlockEventHandlers();
         std::this_thread::sleep_for(std::chrono::duration<double>(0.05));
     }
 }

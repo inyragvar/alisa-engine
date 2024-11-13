@@ -15,8 +15,8 @@ namespace screen {
 
 typedef std::unordered_map<std::string, Screen*> ScreenMap;
 
-class ScreenManager : public utility::Singleton<ScreenManager> {
-    friend class Singleton<ResourceManager>;
+class ScreenManager : public utils::Singleton<ScreenManager> {
+    friend class Singleton<ScreenManager>;
 
 public:
     virtual ~ScreenManager();
