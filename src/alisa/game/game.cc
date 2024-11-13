@@ -9,6 +9,7 @@
 
 #include "alisa/input/input_manager.h"
 #include "alisa/screen/screen_manager.h"
+#include "alisa/render/render.h"
 
 namespace alisa {
 namespace game {
@@ -23,6 +24,7 @@ bool Game::init() {
     logger::Logger::info("width: %d, height: %d", config.getInt("game_screen_width"), config.getInt("game_screen_height"));
     
     input::InputManager::get().init();
+    render::Render::get().init();
 
     return true;
 }
@@ -32,6 +34,8 @@ bool Game::run() {
 
     auto& input_manager = input::InputManager::get();
     auto& screen_manager = screen::ScreenManager::get();
+
+    auto& render_manager =  render::Render::get();
     
     // Set the target frame rate (60 frames per second)
     const double target_frame_rate = utils::Config::get().getFloat("frame_rate");
@@ -68,7 +72,7 @@ bool Game::run() {
 
         current_screen->update(dt.count());
 
-        // render screen
+        render_manager.draw(current_screen);
 
         screen_manager.changeScreen();
         return true;
