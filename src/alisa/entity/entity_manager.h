@@ -6,16 +6,15 @@
 #include <tuple>
 #include <utility>
 
-#include "alisa/untility/singleton.h"
-
-#include "alisa/system/string_id.h"
+#include "alisa/utils/singleton.h"
+#include "alisa/utils/string_id.h"
 
 #include "sprite.h"
 
 namespace alisa {
 namespace entity {
 
-class EntityManager : public utility::Singleton<EntityManager> {
+class EntityManager : public utils::Singleton<EntityManager> {
     friend class Singleton<EntityManager>;
 
 public:
@@ -35,7 +34,7 @@ protected:
     EntityManager();
 
 protected:
-    std::unordered_map<system::StringID, std::tuple<int, Entity*>> entities_;
+    std::unordered_map<utils::StringID, std::tuple<int, Entity*>> entities_;
 };
 
 }

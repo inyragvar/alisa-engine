@@ -7,6 +7,8 @@
 
 #include "alisa/utils/config.h"
 
+#include "alisa/tasks/task_manager.h"
+#include "alisa/resource/resource_manager.h"
 #include "alisa/input/input_manager.h"
 #include "alisa/screen/screen_manager.h"
 #include "alisa/render/render.h"
@@ -23,8 +25,12 @@ bool Game::init() {
     auto& config = utils::Config::get();
     logger::Logger::info("width: %d, height: %d", config.getInt("game_screen_width"), config.getInt("game_screen_height"));
     
+    tasks::TaskManager::get().init();
+    resource::ResourceManager::get().init();
+
     input::InputManager::get().init();
     render::Render::get().init();
+
 
     return true;
 }

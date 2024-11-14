@@ -75,31 +75,6 @@ bool Texture::load() {
     // Log the elapsed time
     logger::Logger::info("Texture: path: '%s'; loaded to RAM: %lld ms", info_.image_path.c_str(), elapsed);
     
-    /*
-    assync load file for web GL
-     // Use Emscripten’s asynchronous file system or XMLHttpRequest for loading the image.
-    emscripten_async_wget_data(url.c_str(), nullptr,
-        [](void* arg, void* data, int size) {
-            // This callback is executed on the main thread after the data has been loaded
-            int width, height, channels;
-            unsigned char* imageData = stbi_load_from_memory((unsigned char*)data, size, &width, &height, &channels, 0);
-
-            // Upload texture to GPU
-            GLuint textureId;
-            glGenTextures(1, &textureId);
-            glBindTexture(GL_TEXTURE_2D, textureId);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-            
-            // Free the image data after uploading
-            stbi_image_free(imageData);
-        },
-        [](void* arg) {
-            // Error callback in case loading fails
-            printf("Failed to load texture\n");
-        }
-    );
-    */
-
     return true;
 }
 

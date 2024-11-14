@@ -95,6 +95,10 @@ void BindVertexArray(unsigned int array) {
 #endif
 }
 
+void DeleteBuffers(unsigned int n, unsigned int* buffers) {
+    glDeleteBuffers(n, buffers);
+}
+
 void ClearColor(float r, float g, float b, float a) {
     glClearColor(r, g, b, a);
 }

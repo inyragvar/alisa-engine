@@ -1,6 +1,6 @@
 #include "entity_manager.h"
 
-#include "alisa/log/log.h"
+#include "alisa/logger/logger.h"
 
 namespace alisa {
 namespace entity {
@@ -18,7 +18,7 @@ void EntityManager::clear() {
 }
 
 Sprite* EntityManager::getSprite(const std::string& name, const std::string& path, int frames_count, int frames_per_row) {
-    system::StringID id = system::GetStringID(name);
+    utils::StringID id = utils::GetStringID(name);
 
     auto it = entities_.find(id);
     if (it != entities_.end()) {
@@ -41,9 +41,9 @@ Sprite* EntityManager::getSprite(const std::string& name, const std::string& pat
 
 void EntityManager::releaseEntity(const std::string& name) {
     if (name.empty()) {
-        Log::warning("EntityManager: can't clear empty entity name");
+        logger::Logger::warn("EntityManager: can't clear empty entity name");
     }
-    system::StringID id = system::GetStringID(name);
+    utils::StringID id = utils::GetStringID(name);
 
     auto it = entities_.find(id);
     if (it != entities_.end()) {
@@ -59,7 +59,7 @@ void EntityManager::releaseEntity(const std::string& name) {
     }
 
     if (it == entities_.end()) {
-        Log::info("EntityManager: can't find entity name: %s", name.c_str());
+        logger::Logger::info("EntityManager: can't find entity name: %s", name.c_str());
     } 
 }
 

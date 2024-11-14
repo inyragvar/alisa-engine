@@ -23,10 +23,10 @@ public:
 
 public:
     std::string getName() const;
-    system::StringID getID() const;
+    utils::StringID getID() const;
 
 public:
-    void setPosition(const math::Vector3f& position);
+    void setPosition(const utils::math::Vector3f& position);
     void setPosition(float x, float y, float z);
 
     void setX(float x);
@@ -99,7 +99,7 @@ public:
     void addChild(Entity* child); 
     void removeChild(Entity* child);
 
-    Entity* getChild(system::StringID id);
+    Entity* getChild(utils::StringID id);
     Entity* getChildByName(const std::string& name);
 
 public:
@@ -110,7 +110,7 @@ protected:
     void setUnchanged();
 
 protected:
-    system::StringID id_;
+    utils::StringID id_;
     std::string name_;
 
     math::Vector3f position_;
@@ -125,7 +125,7 @@ protected:
     bool is_show_ = true;
 
     Entity* parent_;
-    std::unordered_map<system::StringID, Entity*> childs_;
+    std::unordered_map<utils::StringID, Entity*> childs_;
 };
 
 }

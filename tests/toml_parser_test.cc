@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 
-#include "../src/alisa/core/logger.h"
+#include "../src/alisa/logger/logger.h"
 
 #include "../src/alisa/utils/parser/toml/parser.h"
 #include "../src/alisa/utils/parser/toml/value.h"
 
-using namespace alisa::core;
+using namespace alisa::logger;
 using namespace alisa::utils;
 using namespace alisa::utils::parser;
 

@@ -1,16 +1,17 @@
 #include "sprite.h"
 
-#include "alisa/gl/gl_function.h"
-#include "alisa/gl/vertex.h"
+#include "alisa/graphics/gl/function.h"
+#include "alisa/graphics/graphics.h"
 
-#include "alisa/opengl.h"
-#include "alisa/log/log.h"
+
+#include "alisa/logger/logger.h"
 
 #include "alisa/resource/resource_manager.h"
-#include "alisa/gl/gl_resource_manager.h"
 
 namespace alisa {
 namespace entity {
+
+using namespace alisa::utils;
 
 Sprite::Sprite(const std::string& name):
     Entity(name), texture_(nullptr), current_frame_(0), new_current_frame_(0), frames_count_(0), frames_per_row_(0), initiated_(false),
@@ -35,8 +36,8 @@ Sprite::~Sprite() {
         resource::ResourceManager::get().releaseTexture(image_path);
     }
     
-    gl::GLResourceManager::get().releaseBufferID(VAO_);
-    Log::info("releasing VAO: %d;", VAO_);
+    graphics::gl::DeleteBuffers(1, &VAO_);
+    logger::Logger::info("releasing VAO: %d;", VAO_);
 }
 
 void Sprite::update(double dt) {
@@ -101,20 +102,20 @@ void Sprite::setScaleY(float y) {
 
 void Sprite::initVertexArray() {
     // Generate and bind a Vertex Array Object (VAO)
-    gl::GenVertexArrays(1, &VAO_);
+    graphics::gl::GenVertexArrays(1, &VAO_);
     // Generate and bind a Vertex Buffer Object (VBO)
     glGenBuffers(1, &VBO_);
 
-    gl::BindVertexArray(VAO_);
+    graphics::gl::BindVertexArray(VAO_);
     // Define 4 vertices for the rectangle (two triangles forming a quad)
 
     const auto& coords = frame_coords_[current_frame_];
 
     // Specify the vertices in the correct order for GL_TRIANGLE_STRIP
-    vertices_[0] = gl::NewVertex(math::Vector3f(-1.0, -1.0, 0.0f), coords[0]);  // Bottom left
-    vertices_[1] = gl::NewVertex(math::Vector3f(-1.0,  1.0, 0.0f), coords[1]);  // Top left
-    vertices_[2] = gl::NewVertex(math::Vector3f( 1.0, -1.0, 0.0f), coords[2]);  // Bottom right
-    vertices_[3] = gl::NewVertex(math::Vector3f( 1.0,  1.0, 0.0f), coords[3]);  // Top rights
+    vertices_[0] = graphics::Vertex(math::Vector3f(-1.0, -1.0, 0.0f), coords[0]);  // Bottom left
+    vertices_[1] = graphics::Vertex(math::Vector3f(-1.0,  1.0, 0.0f), coords[1]);  // Top left
+    vertices_[2] = graphics::Vertex(math::Vector3f( 1.0, -1.0, 0.0f), coords[2]);  // Bottom right
+    vertices_[3] = graphics::Vertex(math::Vector3f( 1.0,  1.0, 0.0f), coords[3]);  // Top rights
     
     glBindBuffer(GL_ARRAY_BUFFER, VBO_);
 
@@ -123,16 +124,16 @@ void Sprite::initVertexArray() {
 
     // Enable vertex attributes and set up the pointers for position, color, and texture coordinates
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(gl::NewVertex), (const GLvoid*)offsetof(gl::NewVertex, position));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(graphics::Vertex), (const GLvoid*)offsetof(graphics::Vertex, position));
 
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(gl::NewVertex), (const GLvoid*)offsetof(gl::NewVertex, texture));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(graphics::Vertex), (const GLvoid*)offsetof(graphics::Vertex, texture));
    
     // Unbind the buffers
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
       // Unbind the VAO
-    gl::BindVertexArray(0);
+    graphics::gl::BindVertexArray(0);
 
     // Optionally disable the vertex attributes (not strictly necessary, but good for cleanup) - must be after VAO unbind!!!!!
     glDisableVertexAttribArray(0);

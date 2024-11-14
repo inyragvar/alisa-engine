@@ -3,10 +3,12 @@
 namespace alisa {
 namespace entity {
 
+using namespace alisa::utils;
+
 Entity::Entity(const std::string& name):
     name_(name), parent_(nullptr) {
 
-    id_ = system::GetStringID(name);
+    id_ = GetStringID(name);
     
     position_ = math::ZeroVector3f;
     scale_ = math::UnitVector3f;
@@ -26,7 +28,7 @@ std::string Entity::getName() const {
     return name_;
 }
 
-system::StringID Entity::getID() const {
+StringID Entity::getID() const {
     return id_;
 }
 
@@ -236,12 +238,12 @@ void Entity::removeChild(Entity* child) {
     childs_.erase(child->id_);
 }
 
-Entity* Entity::getChild(system::StringID id) {
+Entity* Entity::getChild(StringID id) {
     return childs_[id];
 }
 
 Entity* Entity::getChildByName(const std::string& name) {
-    return childs_[system::GetStringID(name)];
+    return childs_[GetStringID(name)];
 }
 
 void Entity::setChanged() {

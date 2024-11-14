@@ -7,13 +7,13 @@
 
 #include "entity.h"
 
-#include "alisa/gl/vertex.h"
-
-#include "alisa/math/vector_2f.h"
-#include "alisa/math/vector_3f.h"
-#include "alisa/math/color_4f.h"
+#include "alisa/utils/math/vector_2f.h"
+#include "alisa/utils/math/vector_3f.h"
+#include "alisa/utils/math/color_4f.h"
 
 #include "alisa/resource/texture.h"
+
+#include "alisa/graphics/vertex.h"
 
 namespace alisa {
 namespace entity {
@@ -78,7 +78,7 @@ protected:
     int frames_count_;    
     int frames_per_row_;  
 
-    gl::NewVertex vertices_[4];
+    graphics::Vertex vertices_[4];
     std::vector<std::array<math::Vector2f, 4>> frame_coords_; 
 
     // animation 

@@ -16,6 +16,8 @@ void SetTextureWrapMode(bool is_repeat = false, bool is_power_of_two = false);
 void GenVertexArrays(unsigned int n, unsigned int* arrays);
 void BindVertexArray(unsigned int array);
 
+void DeleteBuffers(unsigned int n, unsigned int* buffers);
+
 void ClearColor(float r, float g, float b, float a);
 
 void PolygonMode(unsigned int type);
